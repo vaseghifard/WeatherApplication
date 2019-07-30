@@ -1,4 +1,4 @@
-package com.github.vaseghifard.weatherapplication.utils;
+package com.github.vaseghifard.weatherapplication.customViews;
 
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Weather Application</string>
+    <string name="next_days">Next 4 Days</string>
 </resources>
