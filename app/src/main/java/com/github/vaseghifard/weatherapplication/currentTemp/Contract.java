@@ -2,10 +2,12 @@ package com.github.vaseghifard.weatherapplication.currentTemp;
 
 import android.location.Location;
 
+import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
+
 public interface Contract {
 
     interface View{
-        void currentTempRecieve();
+        void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel);
         void onError();
 
     }
@@ -13,7 +15,7 @@ public interface Contract {
         void attachView(View view);
         void getCurrentLocation(Location location);
         void getCurrentTemp();
-        void currentTempRecieve();
+        void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel);
         void onError();
 
     }

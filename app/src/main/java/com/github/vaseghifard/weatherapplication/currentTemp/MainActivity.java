@@ -14,6 +14,7 @@ import com.github.vaseghifard.weatherapplication.R;
 import com.github.vaseghifard.weatherapplication.adapters.NextDaysItemsAdapter;
 import com.github.vaseghifard.weatherapplication.currentTemp.Contract;
 import com.github.vaseghifard.weatherapplication.currentTemp.Presenter;
+import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
 import com.github.vaseghifard.weatherapplication.utils.BaseActivity;
 
 public class MainActivity extends BaseActivity implements Contract.View, LocationListener {
@@ -51,8 +52,10 @@ public class MainActivity extends BaseActivity implements Contract.View, Locatio
         recyclerView.setAdapter(adapter);*/
     }
 
+  
+
     @Override
-    public void currentTempRecieve() {
+    public void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel) {
 
     }
 
