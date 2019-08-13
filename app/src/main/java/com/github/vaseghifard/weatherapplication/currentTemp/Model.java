@@ -1,32 +1,30 @@
 package com.github.vaseghifard.weatherapplication.currentTemp;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.provider.Contacts;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
-import com.github.vaseghifard.weatherapplication.models.cities.CitiesModel;
 import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
-import com.github.vaseghifard.weatherapplication.utils.BaseActivity;
 import com.github.vaseghifard.weatherapplication.utils.Constants;
-import com.github.vaseghifard.weatherapplication.utils.MyApplication;
-import com.google.gson.Gson;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 
 public class Model implements Contract.Model {
     Contract.Presenter presenter;
-    String id;
+    int id;
+
+    LocationManager locationManager;
+    Location totalLocation = null;
 
 
     @Override
@@ -36,28 +34,60 @@ public class Model implements Contract.Model {
     }
 
     @Override
-    public void getCurrentLocation(Location location) {
+    public void getCurrentLocation(Context context) {
 
-        String json = loadJSONFromAsset();
-        List<CitiesModel> citiesModel = Arrays.asList(new Gson().fromJson(json, CitiesModel.class));
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            return;
+        }
 
-        for (CitiesModel city : citiesModel) {
-            if (city.getCoord().getLat().equals(location.getLatitude()) &&
-                    city.getCoord().getLon().equals(location.getLongitude())) {
+        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        assert locationManager != null;
+        List<String> providers = locationManager.getProviders(true);
 
-                id = city.getId();
+        for (String provider : providers) {
+
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location == null) {
+                locationManager.requestLocationUpdates(provider, 1000, 0,
+                        new LocationListener() {
+                            @Override
+                            public void onLocationChanged(Location location) {
+                                totalLocation = location;
+                            }
+
+                            @Override
+                            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                            }
+
+                            @Override
+                            public void onProviderEnabled(String s) {
+
+                            }
+
+                            @Override
+                            public void onProviderDisabled(String s) {
+
+                            }
+                        });
+            } else {
+                totalLocation = location;
+                Log.e("loc",totalLocation.getLatitude()+"   "+totalLocation.getLongitude()+"");
             }
 
         }
 
+        presenter.locationSaved(totalLocation);
 
     }
 
 
     @Override
-    public void getCurrentTemp() {
-
-        Constants.endpoints.getCurrentWeather(id, Constants.appId).enqueue(new Callback<CurrentWeatherResponseModel>() {
+    public void getCurrentTemp(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        Constants.endpoints.getCurrentWeather(latitude, longitude, Constants.appId).enqueue(new Callback<CurrentWeatherResponseModel>() {
             @Override
             public void onResponse(Call<CurrentWeatherResponseModel> call, Response<CurrentWeatherResponseModel> response) {
                 CurrentWeatherResponseModel responseModel = response.body();
@@ -66,26 +96,9 @@ public class Model implements Contract.Model {
 
             @Override
             public void onFailure(Call<CurrentWeatherResponseModel> call, Throwable t) {
-
+                presenter.onError();
             }
         });
     }
 
-
-    public String loadJSONFromAsset() {
-        String json = null;
-
-        try {
-            InputStream is = MyApplication.appInstance.getAssets().open("city.list.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
 }

@@ -1,5 +1,6 @@
 package com.github.vaseghifard.weatherapplication.currentTemp;
 
+import android.content.Context;
 import android.location.Location;
 import android.view.View;
 
@@ -16,14 +17,20 @@ public class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void getCurrentLocation(Location location) {
-        model.getCurrentLocation(location );
+    public void getCurrentLocation(Context context) {
+        model.getCurrentLocation(context);
 
     }
 
     @Override
-    public void getCurrentTemp() {
-        model.getCurrentTemp();
+    public void locationSaved(Location location) {
+        view.locationSaved(location);
+    }
+
+
+    @Override
+    public void getCurrentTemp(Location location) {
+        model.getCurrentTemp(location);
     }
 
     @Override
@@ -34,6 +41,6 @@ public class Presenter implements Contract.Presenter {
 
     @Override
     public void onError() {
-
+        view.onError();
     }
 }
