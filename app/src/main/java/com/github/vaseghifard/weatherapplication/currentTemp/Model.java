@@ -12,10 +12,13 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
+import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
 import com.github.vaseghifard.weatherapplication.utils.Constants;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 import java.util.List;
 
 
@@ -73,7 +76,7 @@ public class Model implements Contract.Model {
                         });
             } else {
                 totalLocation = location;
-                Log.e("loc",totalLocation.getLatitude()+"   "+totalLocation.getLongitude()+"");
+                Log.e("loc", totalLocation.getLatitude() + "   " + totalLocation.getLongitude() + "");
             }
 
         }
@@ -101,4 +104,28 @@ public class Model implements Contract.Model {
         });
     }
 
+    @Override
+    public void getForecastTemp(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+
+        Constants.endpoints.getForecastWeather(latitude, longitude, Constants.count, Constants.appId).enqueue(new Callback<ForecastWeathearResponseModel>() {
+            @Override
+            public void onResponse(Call<ForecastWeathearResponseModel> call, Response<ForecastWeathearResponseModel> response) {
+                ForecastWeathearResponseModel model = response.body();
+                presenter.forecastTempRecieve(model);
+            }
+
+            @Override
+            public void onFailure(Call<ForecastWeathearResponseModel> call, Throwable t) {
+                presenter.onError();
+
+            }
+        });
+
+    }
+
 }
+
+

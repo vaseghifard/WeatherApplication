@@ -3,9 +3,11 @@ package com.github.vaseghifard.weatherapplication.models;
 public class NextDaysItemsModel {
     private String nameOfDays;
     private String tempOfdays;
-    private int imageOfDays;
+    private String imageOfDays;
 
-    public NextDaysItemsModel(String nameOfDays, String tempOfdays, int imageOfDays) {
+
+
+    public NextDaysItemsModel(String nameOfDays, String tempOfdays, String imageOfDays) {
         this.nameOfDays = nameOfDays;
         this.tempOfdays = tempOfdays;
         this.imageOfDays = imageOfDays;
@@ -30,11 +32,11 @@ public class NextDaysItemsModel {
         this.tempOfdays = tempOfdays;
     }
 
-    public int getImageOfDays() {
+    public String getImageOfDays() {
         return imageOfDays;
     }
 
-    public void setImageOfDays(int imageOfDays) {
+    public void setImageOfDays(String imageOfDays) {
         this.imageOfDays = imageOfDays;
     }
 }

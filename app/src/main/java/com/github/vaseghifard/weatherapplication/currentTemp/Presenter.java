@@ -2,9 +2,9 @@ package com.github.vaseghifard.weatherapplication.currentTemp;
 
 import android.content.Context;
 import android.location.Location;
-import android.view.View;
 
 import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
+import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
 
 public class Presenter implements Contract.Presenter {
     Model model = new Model();
@@ -31,6 +31,17 @@ public class Presenter implements Contract.Presenter {
     @Override
     public void getCurrentTemp(Location location) {
         model.getCurrentTemp(location);
+    }
+
+    @Override
+    public void getForecastTemp(Location location) {
+        model.getForecastTemp(location);
+
+    }
+
+    @Override
+    public void forecastTempRecieve(ForecastWeathearResponseModel forecastWeathearResponseModel) {
+        view.forecastTempRecieve(forecastWeathearResponseModel);
     }
 
     @Override
