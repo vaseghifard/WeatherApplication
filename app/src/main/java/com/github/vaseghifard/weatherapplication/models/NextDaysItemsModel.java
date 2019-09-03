@@ -4,8 +4,13 @@ public class NextDaysItemsModel {
     private String nameOfDays;
     private String tempOfdays;
     private String imageOfDays;
+    private int codeImageOfDays;
 
-
+    public NextDaysItemsModel(String nameOfDays, String tempOfdays, int codeImageOfDays) {
+        this.nameOfDays = nameOfDays;
+        this.tempOfdays = tempOfdays;
+        this.codeImageOfDays = codeImageOfDays;
+    }
 
     public NextDaysItemsModel(String nameOfDays, String tempOfdays, String imageOfDays) {
         this.nameOfDays = nameOfDays;
@@ -38,5 +43,13 @@ public class NextDaysItemsModel {
 
     public void setImageOfDays(String imageOfDays) {
         this.imageOfDays = imageOfDays;
+    }
+
+    public int getCodeImageOfDays() {
+        return codeImageOfDays;
+    }
+
+    public void setCodeImageOfDays(int codeImageOfDays) {
+        this.codeImageOfDays = codeImageOfDays;
     }
 }

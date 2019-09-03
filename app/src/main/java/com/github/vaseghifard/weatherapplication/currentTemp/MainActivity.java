@@ -2,6 +2,7 @@ package com.github.vaseghifard.weatherapplication.currentTemp;
 
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ import com.github.vaseghifard.weatherapplication.utils.Constants;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends BaseActivity implements Contract.View {
@@ -26,6 +28,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
     RecyclerView recyclerView;
     MyTextView city_name, current_temperature, min_max, weather_description;
     MyImageView current_temperature_image;
+    CardView cardView;
     Presenter presenter;
 
 
@@ -43,7 +46,9 @@ public class MainActivity extends BaseActivity implements Contract.View {
         min_max = findViewById(R.id.min_max);
         current_temperature_image = findViewById(R.id.current_temperature_image);
         weather_description = findViewById(R.id.weather_description);
+        cardView = findViewById(R.id.cardView);
 
+        cardView.setCardBackgroundColor(getResources().getColor(R.color.backgroundCardView));
 
         presenter.getCurrentLocation(mContext);
 
@@ -52,23 +57,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
 
 
     @Override
-    public void forecastTempRecieve(ForecastWeathearResponseModel forecastWeathearResponseModel) {
-
-        String temp;
-        String min_temp;
-        String max_temp;
-        String img_URL;
-        NextDaysItemsModel model;
-        ArrayList list=new ArrayList();
-        for (int i = 0; i <= 3; i++) {
-            min_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(forecastWeathearResponseModel.getList().get(i).getMain().getTempMin()));
-            max_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(forecastWeathearResponseModel.getList().get(i).getMain().getTempMax()));
-            temp = min_temp + "/" + max_temp;
-            forecastWeathearResponseModel.getList().get(i).getDt();
-            img_URL = Constants.IMAGEURL + forecastWeathearResponseModel.getList().get(i).getWeather().get(0).getIcon() + "@2x.png";
-            model = new NextDaysItemsModel("mondays", temp, img_URL);
-            list.add(model);
-        }
+    public void forecastTempRecieve(ArrayList list) {
 
         NextDaysItemsAdapter adapter = new NextDaysItemsAdapter(
                 mContext, list);
@@ -79,7 +68,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
     public void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel) {
         city_name.setText(weatherResponseModel.getName());
         weather_description.setText(weatherResponseModel.getWeather().get(0).getMain());
-        current_temperature_image.load(this, Constants.IMAGEURL + weatherResponseModel.getWeather().get(0).getIcon() + "@2x.png");
+        current_temperature_image.load(this,  weatherResponseModel.getWeather().get(0).getId());
 
         String minTemp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponseModel.getMain().getTempMin()));
         String maxTemp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponseModel.getMain().getTempMax()));

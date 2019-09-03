@@ -11,20 +11,31 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.github.vaseghifard.weatherapplication.models.NextDaysItemsModel;
 import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
 import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
 import com.github.vaseghifard.weatherapplication.utils.Constants;
+import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class Model implements Contract.Model {
     Contract.Presenter presenter;
     int id;
+
+    String temp,min_temp,max_temp,img_URL,day;
+    int imgCode;
+    NextDaysItemsModel nextDaysItemsModel;
+    ArrayList list = new ArrayList();
+
 
     LocationManager locationManager;
     Location totalLocation = null;
@@ -114,7 +125,24 @@ public class Model implements Contract.Model {
             @Override
             public void onResponse(Call<ForecastWeathearResponseModel> call, Response<ForecastWeathearResponseModel> response) {
                 ForecastWeathearResponseModel model = response.body();
-                presenter.forecastTempRecieve(model);
+
+                for (int i = 7; i <= Constants.count; i = i + 8) {
+                    min_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(model.getList().get(i).getMain().getTempMin()));
+                    max_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(model.getList().get(i).getMain().getTempMax()));
+                    temp = min_temp + "/" + max_temp;
+                    day = new Date(model.getList().get(i).getDt() * 1000L).toString().substring(0, 3);
+                    //img_URL = Constants.IMAGEURL + model.getList().get(i).getWeather().get(0).getIcon() + "@2x.png";
+                    imgCode=model.getList().get(i).getWeather().get(0).getId();
+                    Log.e("%%%",day+"*"+ temp+"*"+ imgCode);
+
+                    Log.e("imageCode1",imgCode+"");
+                    nextDaysItemsModel = new NextDaysItemsModel(day, temp, imgCode);
+                    list.add(nextDaysItemsModel);
+                }
+
+
+
+                presenter.forecastTempRecieve(list);
             }
 
             @Override

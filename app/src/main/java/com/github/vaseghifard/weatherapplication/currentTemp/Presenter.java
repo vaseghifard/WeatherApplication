@@ -6,6 +6,9 @@ import android.location.Location;
 import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
 import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Presenter implements Contract.Presenter {
     Model model = new Model();
     Contract.View view;
@@ -40,8 +43,8 @@ public class Presenter implements Contract.Presenter {
     }
 
     @Override
-    public void forecastTempRecieve(ForecastWeathearResponseModel forecastWeathearResponseModel) {
-        view.forecastTempRecieve(forecastWeathearResponseModel);
+    public void forecastTempRecieve(ArrayList list) {
+        view.forecastTempRecieve(list);
     }
 
     @Override

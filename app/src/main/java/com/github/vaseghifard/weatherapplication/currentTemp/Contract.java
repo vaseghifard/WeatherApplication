@@ -6,10 +6,13 @@ import android.location.Location;
 import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
 import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public interface Contract {
 
     interface View{
-        void forecastTempRecieve(ForecastWeathearResponseModel forecastWeathearResponseModel);
+        void forecastTempRecieve(ArrayList list);
         void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel);
         void locationSaved(Location location);
         void onError();
@@ -21,7 +24,7 @@ public interface Contract {
         void locationSaved(Location location);
         void getCurrentTemp(Location location);
         void getForecastTemp(Location location);
-        void forecastTempRecieve(ForecastWeathearResponseModel forecastWeathearResponseModel);
+        void forecastTempRecieve(ArrayList list);
         void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel);
         void onError();
 

@@ -6,35 +6,54 @@
     android:layout_height="match_parent"
     android:layout_margin="18dp"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".currentTemp.MainActivity">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:elevation="3dp">
+        android:layout_weight="1"
+        android:elevation="5dp">
 
         <com.github.vaseghifard.weatherapplication.customViews.MyEditText
             android:id="@+id/search"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/edittext_search"
-            android:drawableStart="@drawable/baseline_search_24"
+            android:drawableStart="@drawable/baseline_search_black_18"
             android:gravity="center"
             android:padding="10dp" />
 
-        <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-            android:id="@+id/current_temperature_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                android:id="@+id/weather_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorTextDescription"
+                android:textSize="16sp" />
+
+            <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                android:id="@+id/current_temperature_image"
+                android:layout_width="86dp"
+                android:layout_height="86dp" />
+        </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <com.github.vaseghifard.weatherapplication.customViews.MyTextView
             android:id="@+id/city_name"
@@ -42,11 +61,6 @@
             android:layout_height="wrap_content"
             android:textSize="20sp" />
 
-        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp" />
 
         <com.github.vaseghifard.weatherapplication.customViews.MyTextView
             android:id="@+id/current_temperature"
@@ -54,7 +68,12 @@
             android:layout_height="wrap_content"
             android:textSize="20sp" />
 
-    </RelativeLayout>
+        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+            android:id="@+id/min_max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 
     <LinearLayout

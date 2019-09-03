@@ -3,9 +3,11 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorTextNextDays_Title">#1C2C7C</color>
-    <color name="colorNextDays_border">#FF5722</color>
+    <color name="colorTextNextDays_Title">#487CE4</color>
+    <color name="colorNextDays_border">#293D92</color>
     <color name="colorTextNextDays_names">#F35E2E</color>
     <color name="colorTextNextDays_temp">#FF9800</color>
+    <color name="colorTextDescription">#fff</color>
+    <color name="backgroundCardView">#AEDCFC</color>
 
 </resources>
