@@ -3,17 +3,15 @@ package com.github.vaseghifard.weatherapplication.currentTemp;
 import android.content.Context;
 import android.location.Location;
 
-import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
-import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
-
+import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public interface Contract {
 
     interface View{
         void forecastTempRecieve(ArrayList list);
-        void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel);
+        void currentTempRecieve(CurrentWeather currentWeather);
         void locationSaved(Location location);
         void onError();
 
@@ -25,7 +23,7 @@ public interface Contract {
         void getCurrentTemp(Location location);
         void getForecastTemp(Location location);
         void forecastTempRecieve(ArrayList list);
-        void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel);
+        void currentTempRecieve(CurrentWeather currentWeather);
         void onError();
 
     }

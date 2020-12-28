@@ -2,12 +2,9 @@ package com.github.vaseghifard.weatherapplication.currentTemp;
 
 import android.content.Context;
 import android.location.Location;
-
-import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
-import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
-
+import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Presenter implements Contract.Presenter {
     Model model = new Model();
@@ -19,11 +16,13 @@ public class Presenter implements Contract.Presenter {
         model.attachPresenter(this);
     }
 
+
     @Override
     public void getCurrentLocation(Context context) {
         model.getCurrentLocation(context);
 
     }
+
 
     @Override
     public void locationSaved(Location location) {
@@ -47,11 +46,11 @@ public class Presenter implements Contract.Presenter {
         view.forecastTempRecieve(list);
     }
 
-    @Override
-    public void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel) {
-        view.currentTempRecieve(weatherResponseModel);
-    }
 
+    @Override
+    public void currentTempRecieve(CurrentWeather currentWeather) {
+        view.currentTempRecieve(currentWeather);
+    }
 
     @Override
     public void onError() {
