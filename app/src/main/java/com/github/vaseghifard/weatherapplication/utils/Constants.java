@@ -7,8 +7,6 @@ public class Constants {
     public static String BASE_URL = "http://api.openweathermap.org/data/2.5/" ;
    // public static String IMAGEURL = "http://openweathermap.org/img/wn/" ;
     public static String appId="aa2a71732ae41d87675d7ffe3b1c3102";
-    public static int count=37;
-    public static int count_current=9;
     public static Endpoints endpoints = RetrofitServiceGenerator.createService(Endpoints.class) ;
 }
 

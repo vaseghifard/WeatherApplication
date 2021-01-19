@@ -7,17 +7,24 @@ public class CurrentWeather {
     private Object minTemp;
     private Object maxTemp;
     private Double current_temperature;
+    private Double humidity;
+    private Double speed_wind;
 
     public CurrentWeather() {
     }
 
-    public CurrentWeather(String city_name, String weather_description, int current_temperature_image, Object minTemp, Object maxTemp, Double current_temperature) {
+
+
+    public CurrentWeather(String city_name, String weather_description, int current_temperature_image,
+                          Object minTemp, Object maxTemp, Double current_temperature, Double humidity, Double speed_wind) {
         this.city_name = city_name;
         this.weather_description = weather_description;
         this.current_temperature_image = current_temperature_image;
         this.minTemp = minTemp;
         this.maxTemp = maxTemp;
         this.current_temperature = current_temperature;
+        this.humidity = humidity;
+        this.speed_wind = speed_wind;
     }
 
     public String getCity_name() {
@@ -66,5 +73,22 @@ public class CurrentWeather {
 
     public void setCurrent_temperature(Double current_temperature) {
         this.current_temperature = current_temperature;
+    }
+
+    public Double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(Double humidity) {
+        this.humidity = humidity;
+
+    }
+
+    public Double getSpeed_wind() {
+        return speed_wind;
+    }
+
+    public void setSpeed_wind(Double speed_wind) {
+        this.speed_wind = speed_wind;
     }
 }

@@ -35,7 +35,7 @@ public class NextDaysItemsAdapter extends RecyclerView.Adapter<NextDaysItemsAdap
     public void onBindViewHolder(@NonNull NextDaysItemsAdapter.Holder holder, int i) {
         holder.name.setText(nextDaysItems.get(i).getNameOfDays());
         holder.temp.setText(nextDaysItems.get(i).getTempOfdays());
-        holder.image.load(mContext, nextDaysItems.get(i).getImageOfDays());
+        holder.image.load(mContext, nextDaysItems.get(i).getCodeImageOfDays());
     }
 
     @Override

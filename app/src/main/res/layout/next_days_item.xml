@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="100dp"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:background="@drawable/background_items_transparent"
     android:gravity="center"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-   <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-       android:layout_width="wrap_content"
-       android:id="@+id/nameOfDay"
-       android:textSize="12sp"
-       android:textColor="@color/colorTextNextDays_names"
-       android:layout_height="wrap_content" />
+    <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+        android:id="@+id/nameOfDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorNextDays_border"
+        android:textSize="12sp" />
 
     <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-        android:layout_width="wrap_content"
         android:id="@+id/imageOfDay"
-        android:layout_height="wrap_content" />
+        android:layout_width="66dp"
+        android:layout_height="66dp" />
+
     <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-        android:layout_width="wrap_content"
         android:id="@+id/tempOfDay"
-        android:textSize="12sp"
-        android:textColor="@color/colorTextNextDays_names"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorNextDays_border"
+        android:textSize="12sp" />
 
 </LinearLayout>

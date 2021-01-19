@@ -24,7 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +45,8 @@ public class Model implements Contract.Model {
     ArrayList list_max_temp = new ArrayList();
     ArrayList list_days_min = new ArrayList();
     ArrayList list_days_max = new ArrayList();
+    ArrayList list_humidity = new ArrayList<Double>();
+    ArrayList list_speed_wind = new ArrayList<Double>();
 
     LocationManager locationManager;
     Location totalLocation = null;
@@ -135,7 +139,16 @@ public class Model implements Contract.Model {
     public void getCurrentTemp(Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-        Constants.endpoints.getForecastWeather(latitude, longitude, Constants.count_current, Constants.appId)
+        list_min_temp.clear();
+        list_max_temp.clear();
+        list_humidity.clear();
+        list_speed_wind.clear();
+        final double[] sum_humidity = {0d};
+        final double[] sum_speed_wind = {0d};
+        int currentTime = Integer.parseInt(new SimpleDateFormat("HH").format(new Date()));
+        final int count_current = ((24 - currentTime) / 3) + 2;
+        Log.e("cnt", count_current + "");
+        Constants.endpoints.getForecastWeather(latitude, longitude, count_current, Constants.appId)
                 .enqueue(new Callback<ForecastWeathearResponseModel>() {
                     @Override
                     public void onResponse(Call<ForecastWeathearResponseModel> call, Response<ForecastWeathearResponseModel> response) {
@@ -143,17 +156,28 @@ public class Model implements Contract.Model {
 
 
                         responseModel.getList().get(1).getWeather().get(0).getId();
-                        for (int i = 0; i < Constants.count_current; i++) {
+                        for (int i = 0; i < count_current; i++) {
                             list_min_temp.add(responseModel.getList().get(i).getMain().getTempMin());
                             list_max_temp.add(responseModel.getList().get(i).getMain().getTempMax());
+                            list_humidity.add(responseModel.getList().get(i).getMain().getHumidity());
+                            list_speed_wind.add(responseModel.getList().get(i).getWind().getSpeed());
                         }
 
+
+
+                        for (int i=0;i<list_humidity.size();i++){
+
+                            sum_humidity[0] = Double.valueOf(list_humidity.get(i).toString()) + sum_humidity[0];
+                            sum_speed_wind[0] = Double.valueOf(list_speed_wind.get(i).toString()) + sum_speed_wind[0];
+                        }
+                        Log.e("hum",sum_humidity[0]/list_humidity.size()+"");
                         CurrentWeather currentWeather = new CurrentWeather(responseModel.getCity().getName(),
                                 responseModel.getList().get(1).getWeather().get(0).getMain()
                                 , responseModel.getList().get(1).getWeather().get(0).getId(),
                                 Collections.min(list_min_temp)
                                 , Collections.max(list_max_temp),
-                                responseModel.getList().get(1).getMain().getTemp());
+                                responseModel.getList().get(1).getMain().getTemp(),sum_humidity[0]/list_humidity.size(),
+                                sum_speed_wind[0]/list_speed_wind.size());
 
 
                         Hawk.put("CurrentWeather", currentWeather);
@@ -171,24 +195,35 @@ public class Model implements Contract.Model {
     public void getForecastTemp(Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
+        Log.e("lat",latitude+"");
+        Log.e("lon",longitude+"");
+        int currentTime = Integer.parseInt(new SimpleDateFormat("HH").format(new Date()));
+        final int count = (((24 - currentTime) / 3) + 2);
+        Log.e("count", count + "");
 
-
-        Constants.endpoints.getForecastWeather(latitude, longitude, Constants.count, Constants.appId).enqueue(new Callback<ForecastWeathearResponseModel>() {
+        Constants.endpoints.getForecastWeather(latitude, longitude,count+32, Constants.appId).enqueue(new Callback<ForecastWeathearResponseModel>() {
             @Override
             public void onResponse(Call<ForecastWeathearResponseModel> call, Response<ForecastWeathearResponseModel> response) {
                 ForecastWeathearResponseModel model = response.body();
                 list.clear();
-                for (int j = 6; j <= Constants.count; j = j + 5){
-                for(int i=j-6;i<j;i++)
-                {
-                    list_min_temp.add(model.getList().get(i).getMain().getTempMin());
-                    list_max_temp.add(model.getList().get(i).getMain().getTempMax());
+                list_days_min.clear();
+                list_days_max.clear();
+                list_min_temp.clear();
+                list_max_temp.clear();
+                for (int j = count; j <count+32; j = j + 8) {
+                    Log.e("j",j+"");
+                    for (int i = j ; i <j+8; i++) {
+                        Log.e("i",i+"");
+                        list_min_temp.add(model.getList().get(i).getMain().getTempMin());
+                        list_max_temp.add(model.getList().get(i).getMain().getTempMax());
+                        Log.e("min", model.getList().get(i).getMain().getTempMin()+ "");
+                        Log.e("dt", model.getList().get(i).getDtTxt()+ "");
 
 
-                }
+                    }
                     list_days_min.add(Collections.min(list_min_temp));
                     list_days_max.add(Collections.max(list_max_temp));
-                    for (int k=0;k<list_days_min.size();k++){
+                    for (int k = 0; k < list_days_min.size(); k++) {
                         min_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC((Double) list_days_min.get(k)));
                         max_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC((Double) list_days_max.get(k)));
                         temp = min_temp + "/" + max_temp;

@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Weather Application</string>
     <string name="next_days">Next 4 Days</string>
+    <string name="low_temp">Low Temp</string>
+    <string name="High_Temp">High Temp</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Wind_Speed">Wind Speed</string>
 </resources>
