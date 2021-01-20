@@ -9,7 +9,7 @@
     <color name="colorTextNextDays_temp">#FF9800</color>
     <color name="colorTextDescription">#fff</color>
     <color name="backgroundCardView">#8ABDE9</color>
-    <color name="backgroundCardViewTransparent">#888ABDE9</color>
+    <color name="backgroundCardViewTransparent">#8ABDE9</color>
     <color name="backgroundItemsTrans">#A6797777</color>
 
 </resources>
