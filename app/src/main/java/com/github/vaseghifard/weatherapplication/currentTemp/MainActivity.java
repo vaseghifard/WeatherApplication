@@ -4,23 +4,29 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.github.vaseghifard.weatherapplication.R;
 import com.github.vaseghifard.weatherapplication.adapters.NextDaysItemsAdapter;
 import com.github.vaseghifard.weatherapplication.customViews.MyImageView;
 import com.github.vaseghifard.weatherapplication.customViews.MyTextView;
-import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
+import com.github.vaseghifard.weatherapplication.models.NextDaysItemsModel;
+import com.github.vaseghifard.weatherapplication.models.currentWeatherResponse.CurrentWeatherResponseModel;
+import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.ForecastWeathearResponseModel;
+import com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse.List;
 import com.github.vaseghifard.weatherapplication.utils.BaseActivity;
+import com.github.vaseghifard.weatherapplication.utils.Constants;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class MainActivity extends BaseActivity implements Contract.View {
 
     RecyclerView recyclerView;
-    MyTextView city_name, current_temperature, min, max, weather_description, wind_speed, humidity;
+    MyTextView city_name, current_temperature, min_max, weather_description;
     MyImageView current_temperature_image;
     CardView cardView;
     Presenter presenter;
@@ -37,10 +43,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
         recyclerView = findViewById(R.id.items_future);
         city_name = findViewById(R.id.city_name);
         current_temperature = findViewById(R.id.current_temperature);
-        min = findViewById(R.id.min);
-        max = findViewById(R.id.max);
-        wind_speed = findViewById(R.id.wind_speed);
-        humidity = findViewById(R.id.humidity);
+        min_max = findViewById(R.id.min_max);
         current_temperature_image = findViewById(R.id.current_temperature_image);
         weather_description = findViewById(R.id.weather_description);
         cardView = findViewById(R.id.cardView);
@@ -61,20 +64,19 @@ public class MainActivity extends BaseActivity implements Contract.View {
         recyclerView.setAdapter(adapter);
     }
 
-
     @Override
-    public void currentTempRecieve(CurrentWeather currentWeather) {
+    public void currentTempRecieve(CurrentWeatherResponseModel weatherResponseModel) {
+        city_name.setText(weatherResponseModel.getName());
+        weather_description.setText(weatherResponseModel.getWeather().get(0).getMain());
+        current_temperature_image.load(this,  weatherResponseModel.getWeather().get(0).getId());
 
-        city_name.setText(currentWeather.getCity_name());
-        weather_description.setText(currentWeather.getWeather_description());
-        current_temperature_image.load(this, currentWeather.getCurrent_temperature_image());
-        String minTemp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC((Double) currentWeather.getMinTemp()));
-        String maxTemp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC((Double) currentWeather.getMaxTemp()));
-        min.setText(minTemp);
-        max.setText(maxTemp);
-        current_temperature.setText(String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(currentWeather.getCurrent_temperature())));
-        humidity.setText(String.format("%.0f", currentWeather.getHumidity())+"%");
-        wind_speed.setText(String.format("%.0f",currentWeather.getSpeed_wind())+"km/h");
+        String minTemp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponseModel.getMain().getTempMin()));
+        String maxTemp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponseModel.getMain().getTempMax()));
+        min_max.setText(minTemp + "/" + maxTemp);
+
+
+        current_temperature.setText(String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponseModel.getMain().getTemp())));
+
 
     }
 
@@ -89,14 +91,4 @@ public class MainActivity extends BaseActivity implements Contract.View {
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        presenter.getCurrentLocation(mContext);
-    }
 }
