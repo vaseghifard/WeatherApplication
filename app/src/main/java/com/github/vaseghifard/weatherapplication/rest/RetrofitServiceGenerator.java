@@ -2,6 +2,8 @@ package com.github.vaseghifard.weatherapplication.rest;
 
 import com.github.vaseghifard.weatherapplication.utils.Constants;
 
+import javax.net.ssl.SSLContext;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
         min.setText(minTemp);
         max.setText(maxTemp);
         current_temperature.setText(String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(currentWeather.getCurrent_temperature())));
-        humidity.setText(String.format("%.0f", currentWeather.getHumidity())+"%");
+        humidity.setText(String.valueOf(currentWeather.getHumidity())+"%");
         wind_speed.setText(String.format("%.0f",currentWeather.getSpeed_wind())+"km/h");
 
     }

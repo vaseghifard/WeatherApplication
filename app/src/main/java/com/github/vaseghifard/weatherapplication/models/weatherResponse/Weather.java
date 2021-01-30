@@ -1,5 +1,5 @@
 
-package com.github.vaseghifard.weatherapplication.models.forecastWaetherResponse;
+package com.github.vaseghifard.weatherapplication.models.weatherResponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
