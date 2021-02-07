@@ -14,8 +14,6 @@ import com.github.vaseghifard.weatherapplication.customViews.MyTextView;
 import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
 import com.github.vaseghifard.weatherapplication.utils.BaseActivity;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -24,8 +22,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
 
     RecyclerView recyclerView;
     MyTextView city_name, current_temperature, min, max, weather_description, wind_speed, humidity,time;
-    MyImageView current_temperature_image;
-   // CardView cardView;
+    MyImageView current_temperature_image,search,reload;
     Presenter presenter;
 
 
@@ -45,12 +42,10 @@ public class MainActivity extends BaseActivity implements Contract.View {
         wind_speed = findViewById(R.id.wind_speed);
         humidity = findViewById(R.id.humidity);
         time = findViewById(R.id.time);
+        search = findViewById(R.id.search);
+        reload = findViewById(R.id.reload);
         current_temperature_image = findViewById(R.id.current_temperature_image);
         weather_description = findViewById(R.id.weather_description);
-       // cardView = findViewById(R.id.cardView);
-
-       // cardView.setCardBackgroundColor(getResources().getColor(R.color.backgroundCardView));
-        //cardView.setCardBackgroundColor(getResources().getColor(R.color.white));
 
         presenter.getCurrentLocation(mContext);
 
@@ -82,7 +77,8 @@ public class MainActivity extends BaseActivity implements Contract.View {
         current_temperature.setText(String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(currentWeather.getCurrent_temperature()))+"C");
         humidity.setText(String.valueOf(currentWeather.getHumidity())+"%");
         wind_speed.setText(String.format("%.0f",currentWeather.getSpeed_wind())+"km/h");
-        time.setText( new SimpleDateFormat("YYYY/MM/DD  hh:mm").format(currentWeather.getDate()));
+        time.setText( new SimpleDateFormat("MM/dd/yyyy HH:mm").format(currentWeather.getDate()));
+        Log.e("date",currentWeather.getDate().toString());
 
     }
 

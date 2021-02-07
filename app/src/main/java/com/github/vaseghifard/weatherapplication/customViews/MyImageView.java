@@ -38,7 +38,7 @@ public class MyImageView extends AppCompatImageView {
         } else if (imageCode / 100 == 6) {
             Glide.with(mContext).load(R.drawable.ic_snow_weather).into(this);
         } else if (imageCode / 100 == 7) {
-            Glide.with(mContext).load(R.drawable.ic_unknown).into(this);
+            Glide.with(mContext).load(R.drawable.ic_mist).into(this);
         } else if (imageCode == 800) {
             Glide.with(mContext).load(R.drawable.ic_clear_day).into(this);
         } else if (imageCode == 801) {
