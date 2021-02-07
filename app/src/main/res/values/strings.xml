@@ -5,4 +5,5 @@
     <string name="High_Temp">High Temp</string>
     <string name="Humidity">Humidity</string>
     <string name="Wind_Speed">Wind Speed</string>
+    <string name="Details">Details</string>
 </resources>

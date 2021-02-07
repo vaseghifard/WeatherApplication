@@ -11,5 +11,12 @@
     <color name="backgroundCardView">#8ABDE9</color>
     <color name="backgroundCardViewTransparent">#8ABDE9</color>
     <color name="backgroundItemsTrans">#A6797777</color>
+    <color name="white">#fff</color>
+    <color name="textBig">#60a6ee</color>
+    <color name="textSmall">#c2dcf7</color>
+    <color name="textDetail">#000</color>
+    <color name="startColor">#40adff</color>
+    <color name="endColor">#0495fe</color>
+    <color name="items">#60a6ee</color>
 
 </resources>

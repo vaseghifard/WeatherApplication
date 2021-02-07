@@ -1,5 +1,7 @@
 package com.github.vaseghifard.weatherapplication.models;
 
+import java.util.Date;
+
 public class CurrentWeather {
     private String city_name;
     private String weather_description;
@@ -9,10 +11,11 @@ public class CurrentWeather {
     private Double current_temperature;
     private Integer humidity;
     private Double speed_wind;
+    private Date date;
 
 
     public CurrentWeather(String city_name, String weather_description, int current_temperature_image,
-                          Object minTemp, Object maxTemp, Double current_temperature, Integer humidity, Double speed_wind) {
+                          Object minTemp, Object maxTemp, Double current_temperature, Integer humidity, Double speed_wind,Date date) {
         this.city_name = city_name;
         this.weather_description = weather_description;
         this.current_temperature_image = current_temperature_image;
@@ -21,6 +24,7 @@ public class CurrentWeather {
         this.current_temperature = current_temperature;
         this.humidity = humidity;
         this.speed_wind = speed_wind;
+        this.date = date;
     }
 
     public String getCity_name() {
@@ -86,5 +90,13 @@ public class CurrentWeather {
 
     public void setSpeed_wind(Double speed_wind) {
         this.speed_wind = speed_wind;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -45,7 +45,7 @@ public class Hourly {
     private List<Weather> weather = null;
     @SerializedName("pop")
     @Expose
-    private Integer pop;
+    private Double pop;
 
     public Integer getDt() {
         return dt;
@@ -143,11 +143,11 @@ public class Hourly {
         this.weather = weather;
     }
 
-    public Integer getPop() {
+    public Double getPop() {
         return pop;
     }
 
-    public void setPop(Integer pop) {
+    public void setPop(Double pop) {
         this.pop = pop;
     }
 

@@ -114,6 +114,9 @@ public class Model implements Contract.Model {
                     }
 
                 }
+
+
+
                 presenter.locationSaved(totalLocation);
 
             } else {
@@ -136,6 +139,7 @@ public class Model implements Contract.Model {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
+
        Constants.endpoints.getWeatherResponse(latitude, longitude, Constants.appId)
                 .enqueue(new Callback<WeatherResponse>() {
                     @Override
@@ -155,7 +159,8 @@ public class Model implements Contract.Model {
                                 Collections.max(list_temp),
                                 weatherResponse.getCurrent().getTemp(),
                                 weatherResponse.getCurrent().getHumidity(),
-                                weatherResponse.getCurrent().getWindSpeed());
+                                weatherResponse.getCurrent().getWindSpeed(),
+                                new Date(weatherResponse.getCurrent().getDt() * 1000L));
 
 
                         Hawk.put("CurrentWeather", currentWeather);

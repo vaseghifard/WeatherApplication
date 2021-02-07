@@ -11,7 +11,7 @@
         android:id="@+id/nameOfDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorNextDays_border"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <com.github.vaseghifard.weatherapplication.customViews.MyImageView
@@ -23,7 +23,7 @@
         android:id="@+id/tempOfDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorNextDays_border"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
 </LinearLayout>
