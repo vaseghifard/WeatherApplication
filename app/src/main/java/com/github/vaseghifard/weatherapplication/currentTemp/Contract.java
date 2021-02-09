@@ -10,8 +10,8 @@ import java.util.ArrayList;
 public interface Contract {
 
     interface View{
-        void forecastTempRecieve(ArrayList list);
-        void currentTempRecieve(CurrentWeather currentWeather);
+
+        void currentTempRecieve(CurrentWeather currentWeather,ArrayList list);
         void locationSaved(Location location);
         void onError();
 
@@ -21,9 +21,7 @@ public interface Contract {
         void getCurrentLocation(Context context);
         void locationSaved(Location location);
         void getCurrentTemp(Location location);
-        void getForecastTemp(Location location);
-        void forecastTempRecieve(ArrayList list);
-        void currentTempRecieve(CurrentWeather currentWeather);
+        void currentTempRecieve(CurrentWeather currentWeather,ArrayList list);
         void onError();
 
     }
@@ -31,6 +29,5 @@ public interface Contract {
         void attachPresenter(Presenter Presenter);
         void getCurrentLocation(Context context);
         void getCurrentTemp(Location location);
-        void getForecastTemp(Location location);
     }
 }

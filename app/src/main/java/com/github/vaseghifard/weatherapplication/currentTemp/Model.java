@@ -127,8 +127,8 @@ public class Model implements Contract.Model {
 
             } else {
 
-                presenter.currentTempRecieve((CurrentWeather) Hawk.get("CurrentWeather"));
-                presenter.forecastTempRecieve((ArrayList) Hawk.get("foreCastTemp"));
+                presenter.currentTempRecieve((CurrentWeather) Hawk.get("CurrentWeather"),(ArrayList) Hawk.get("foreCastTemp"));
+
             }
 
         } catch (Exception e) {
@@ -158,11 +158,11 @@ public class Model implements Contract.Model {
                    @Override
                    public void onNext(WeatherResponse weatherResponse) {
 
-                       for (int i = 0; i < 24; i++) {
-
+                       //get current temp
+                       for (int i = 0; i < 24; i++)
+                       {
                            list_temp.add(weatherResponse.getHourly().get(i).getTemp());
                        }
-
                         currentWeather = new CurrentWeather(
                                weatherResponse.getTimezone().substring(weatherResponse.getTimezone().lastIndexOf("/") + 1),
                                weatherResponse.getCurrent().getWeather().get(0).getDescription(),
@@ -174,6 +174,19 @@ public class Model implements Contract.Model {
                                weatherResponse.getCurrent().getWindSpeed(),
                                new Date(weatherResponse.getCurrent().getDt() * 1000L));
 
+
+                       // get forecast temp
+                       list.clear();
+                       for (int i = 1; i < 5; i++) {
+                           day = new Date(weatherResponse.getDaily().get(i).getDt() * 1000L).toString().substring(0, 3);
+                           min_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponse.getDaily().get(i).getTemp().getMin()));
+                           max_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponse.getDaily().get(i).getTemp().getMax()));
+                           temp = min_temp + "/" + max_temp;
+                           imgCode = weatherResponse.getDaily().get(i).getWeather().get(0).getId();
+                           nextDaysItemsModel = new NextDaysItemsModel(day, temp, imgCode);
+                           list.add(nextDaysItemsModel);
+                       }
+
                    }
 
                    @Override
@@ -184,56 +197,15 @@ public class Model implements Contract.Model {
                    @Override
                    public void onComplete() {
                        Hawk.put("CurrentWeather", currentWeather);
-                       presenter.currentTempRecieve(currentWeather);
+                       Hawk.put("foreCastTemp", list);
+                       presenter.currentTempRecieve(currentWeather,list);
+
 
                    }
                });
     }
 
-    @Override
-    public void getForecastTemp(Location location) {
 
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-
-
-        Constants.endpoints.getWeatherResponse(latitude, longitude, Constants.appId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<WeatherResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable disposable) {
-
-                    }
-
-                    @Override
-                    public void onNext(WeatherResponse weatherResponse) {
-
-                        list.clear();
-
-                        for (int i = 1; i < 5; i++) {
-                            day = new Date(weatherResponse.getDaily().get(i).getDt() * 1000L).toString().substring(0, 3);
-                            min_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponse.getDaily().get(i).getTemp().getMin()));
-                            max_temp = String.format(Locale.getDefault(), "%.0f°", PublicMethods.convertKToC(weatherResponse.getDaily().get(i).getTemp().getMax()));
-                            temp = min_temp + "/" + max_temp;
-                            imgCode = weatherResponse.getDaily().get(i).getWeather().get(0).getId();
-                            nextDaysItemsModel = new NextDaysItemsModel(day, temp, imgCode);
-                            list.add(nextDaysItemsModel);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        presenter.onError();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Hawk.put("foreCastTemp", list);
-                        presenter.forecastTempRecieve(list);
-                    }
-                });
-    }
 
 }
 

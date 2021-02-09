@@ -35,21 +35,11 @@ public class Presenter implements Contract.Presenter {
         model.getCurrentTemp(location);
     }
 
-    @Override
-    public void getForecastTemp(Location location) {
-        model.getForecastTemp(location);
-
-    }
-
-    @Override
-    public void forecastTempRecieve(ArrayList list) {
-        view.forecastTempRecieve(list);
-    }
 
 
     @Override
-    public void currentTempRecieve(CurrentWeather currentWeather) {
-        view.currentTempRecieve(currentWeather);
+    public void currentTempRecieve(CurrentWeather currentWeather,ArrayList list) {
+        view.currentTempRecieve(currentWeather,list);
     }
 
     @Override

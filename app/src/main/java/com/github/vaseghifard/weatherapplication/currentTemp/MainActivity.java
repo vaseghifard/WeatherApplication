@@ -52,17 +52,11 @@ public class MainActivity extends BaseActivity implements Contract.View {
     }
 
 
-    @Override
-    public void forecastTempRecieve(ArrayList list) {
 
-        NextDaysItemsAdapter adapter = new NextDaysItemsAdapter(
-                mContext, list);
-        recyclerView.setAdapter(adapter);
-    }
 
 
     @Override
-    public void currentTempRecieve(CurrentWeather currentWeather) {
+    public void currentTempRecieve(CurrentWeather currentWeather,ArrayList list) {
 
 
 
@@ -77,7 +71,12 @@ public class MainActivity extends BaseActivity implements Contract.View {
         humidity.setText(String.valueOf(currentWeather.getHumidity())+"%");
         wind_speed.setText(String.format("%.0f",currentWeather.getSpeed_wind())+"km/h");
         time.setText( new SimpleDateFormat("MM/dd/yyyy HH:mm").format(currentWeather.getDate()));
-        Log.e("date",currentWeather.getDate().toString());
+
+
+
+        NextDaysItemsAdapter adapter = new NextDaysItemsAdapter(
+                mContext, list);
+        recyclerView.setAdapter(adapter);
 
     }
 
@@ -85,7 +84,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
     public void locationSaved(Location location) {
 
         presenter.getCurrentTemp(location);
-        presenter.getForecastTemp(location);
+
     }
 
     @Override
