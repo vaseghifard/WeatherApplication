@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -20,6 +21,11 @@ import com.github.vaseghifard.weatherapplication.utils.Constants;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 import com.orhanobut.hawk.Hawk;
 
+import io.reactivex.Observer;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Call;
@@ -34,9 +40,9 @@ import java.util.Locale;
 
 public class Model implements Contract.Model {
     Contract.Presenter presenter;
-    int id;
+    CurrentWeather currentWeather;
 
-    String temp, min_temp, max_temp, img_URL, day;
+    String temp, min_temp, max_temp,day;
     int imgCode;
     NextDaysItemsModel nextDaysItemsModel;
     ArrayList list = new ArrayList();
@@ -141,37 +147,47 @@ public class Model implements Contract.Model {
 
 
        Constants.endpoints.getWeatherResponse(latitude, longitude, Constants.appId)
-                .enqueue(new Callback<WeatherResponse>() {
-                    @Override
-                    public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<WeatherResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable disposable) {
+                       //loading
+                   }
 
-                        WeatherResponse weatherResponse = response.body();
-                        for (int i = 0; i < 24; i++) {
+                   @Override
+                   public void onNext(WeatherResponse weatherResponse) {
 
-                            list_temp.add(weatherResponse.getHourly().get(i).getTemp());
-                        }
+                       for (int i = 0; i < 24; i++) {
 
-                        CurrentWeather currentWeather = new CurrentWeather(
-                                weatherResponse.getTimezone().substring(weatherResponse.getTimezone().lastIndexOf("/") + 1),
-                                weatherResponse.getCurrent().getWeather().get(0).getDescription(),
-                                weatherResponse.getCurrent().getWeather().get(0).getId(),
-                                Collections.min(list_temp),
-                                Collections.max(list_temp),
-                                weatherResponse.getCurrent().getTemp(),
-                                weatherResponse.getCurrent().getHumidity(),
-                                weatherResponse.getCurrent().getWindSpeed(),
-                                new Date(weatherResponse.getCurrent().getDt() * 1000L));
+                           list_temp.add(weatherResponse.getHourly().get(i).getTemp());
+                       }
 
+                        currentWeather = new CurrentWeather(
+                               weatherResponse.getTimezone().substring(weatherResponse.getTimezone().lastIndexOf("/") + 1),
+                               weatherResponse.getCurrent().getWeather().get(0).getDescription(),
+                               weatherResponse.getCurrent().getWeather().get(0).getId(),
+                               Collections.min(list_temp),
+                               Collections.max(list_temp),
+                               weatherResponse.getCurrent().getTemp(),
+                               weatherResponse.getCurrent().getHumidity(),
+                               weatherResponse.getCurrent().getWindSpeed(),
+                               new Date(weatherResponse.getCurrent().getDt() * 1000L));
 
-                        Hawk.put("CurrentWeather", currentWeather);
-                        presenter.currentTempRecieve(currentWeather);
-                    }
+                   }
 
-                    @Override
-                    public void onFailure(Call<WeatherResponse> call, Throwable t) {
-                        presenter.onError();
-                    }
-                });
+                   @Override
+                   public void onError(Throwable throwable) {
+                       presenter.onError();
+                   }
+
+                   @Override
+                   public void onComplete() {
+                       Hawk.put("CurrentWeather", currentWeather);
+                       presenter.currentTempRecieve(currentWeather);
+
+                   }
+               });
     }
 
     @Override
@@ -182,10 +198,17 @@ public class Model implements Contract.Model {
 
 
         Constants.endpoints.getWeatherResponse(latitude, longitude, Constants.appId)
-                .enqueue(new Callback<WeatherResponse>() {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<WeatherResponse>() {
                     @Override
-                    public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
-                        WeatherResponse weatherResponse = response.body();
+                    public void onSubscribe(Disposable disposable) {
+
+                    }
+
+                    @Override
+                    public void onNext(WeatherResponse weatherResponse) {
+
                         list.clear();
 
                         for (int i = 1; i < 5; i++) {
@@ -197,15 +220,17 @@ public class Model implements Contract.Model {
                             nextDaysItemsModel = new NextDaysItemsModel(day, temp, imgCode);
                             list.add(nextDaysItemsModel);
                         }
-
-
-                        Hawk.put("foreCastTemp", list);
-                        presenter.forecastTempRecieve(list);
                     }
 
                     @Override
-                    public void onFailure(Call<WeatherResponse> call, Throwable t) {
+                    public void onError(Throwable throwable) {
                         presenter.onError();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Hawk.put("foreCastTemp", list);
+                        presenter.forecastTempRecieve(list);
                     }
                 });
     }

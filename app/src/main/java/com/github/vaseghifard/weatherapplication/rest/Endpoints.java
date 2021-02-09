@@ -2,14 +2,14 @@ package com.github.vaseghifard.weatherapplication.rest;
 
 import com.github.vaseghifard.weatherapplication.models.weatherResponse.WeatherResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface Endpoints {
 
     @GET("onecall")
-    Call<WeatherResponse> getWeatherResponse(
+    Observable<WeatherResponse> getWeatherResponse(
 
             @Query("lat")  double lat,
             @Query("lon") double lon,

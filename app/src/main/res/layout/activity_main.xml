@@ -72,6 +72,7 @@
                     <com.github.vaseghifard.weatherapplication.customViews.MyTextView
                         android:layout_width="wrap_content"
                         android:id="@+id/current_temperature"
+                        android:gravity="center"
                         android:textColor="@color/textBig"
                         android:textSize="30sp"
                         android:layout_height="wrap_content" />
@@ -79,6 +80,7 @@
                     <com.github.vaseghifard.weatherapplication.customViews.MyTextView
                         android:layout_width="wrap_content"
                         android:textSize="24sp"
+                        android:gravity="center"
                         android:textColor="@color/textBig"
                         android:id="@+id/weather_description"
                         android:layout_height="wrap_content" />

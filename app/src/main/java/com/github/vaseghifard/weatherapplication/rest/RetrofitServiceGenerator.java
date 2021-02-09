@@ -1,12 +1,12 @@
 package com.github.vaseghifard.weatherapplication.rest;
 
 import com.github.vaseghifard.weatherapplication.utils.Constants;
-
-import javax.net.ssl.SSLContext;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitServiceGenerator {
@@ -19,6 +19,7 @@ public class RetrofitServiceGenerator {
                 .baseUrl(Constants.BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(serviceClass);
     }
