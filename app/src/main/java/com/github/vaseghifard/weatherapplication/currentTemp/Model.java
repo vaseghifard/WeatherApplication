@@ -10,27 +10,18 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.MainThread;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
-
 import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
 import com.github.vaseghifard.weatherapplication.models.NextDaysItemsModel;
 import com.github.vaseghifard.weatherapplication.models.weatherResponse.WeatherResponse;
 import com.github.vaseghifard.weatherapplication.utils.Constants;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 import com.orhanobut.hawk.Hawk;
-
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -123,11 +114,12 @@ public class Model implements Contract.Model {
 
 
 
+                Log.e("getlocation","getlocation");
                 presenter.locationSaved(totalLocation);
 
             } else {
 
-                presenter.currentTempRecieve((CurrentWeather) Hawk.get("CurrentWeather"),(ArrayList) Hawk.get("foreCastTemp"));
+                presenter.currentTempRecieve( Hawk.get("CurrentWeather"), Hawk.get("foreCastTemp"));
 
             }
 
@@ -145,7 +137,7 @@ public class Model implements Contract.Model {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 
-
+        Log.e("getcurrent","getcurrent");
        Constants.endpoints.getWeatherResponse(latitude, longitude, Constants.appId)
                .subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())

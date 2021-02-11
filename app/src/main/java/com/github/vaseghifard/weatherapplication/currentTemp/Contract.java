@@ -15,6 +15,7 @@ public interface Contract {
         void locationSaved(Location location);
         void onError();
 
+        void onReload(Void aVoid);
     }
     interface Presenter{
         void attachView(View view);
