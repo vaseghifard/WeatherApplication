@@ -1,15 +1,11 @@
 package com.github.vaseghifard.weatherapplication.currentTemp;
-
-import android.animation.ValueAnimator;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-
+import android.widget.ProgressBar;
 import com.github.vaseghifard.weatherapplication.R;
 import com.github.vaseghifard.weatherapplication.adapters.NextDaysItemsAdapter;
 import com.github.vaseghifard.weatherapplication.customViews.MyImageView;
@@ -18,19 +14,20 @@ import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
 import com.github.vaseghifard.weatherapplication.utils.BaseActivity;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 import com.jakewharton.rxbinding.view.RxView;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+
 
 
 public class MainActivity extends BaseActivity implements Contract.View {
 
     RecyclerView recyclerView;
     MyTextView city_name, current_temperature, min, max, weather_description, wind_speed, humidity, time;
-    MyImageView current_temperature_image, search, reload;
+    MyImageView current_temperature_image, search;
+    ProgressBar progressBar;
     Presenter presenter;
+    SwipeRefreshLayout swipeRefresh;
 
 
     @Override
@@ -41,6 +38,8 @@ public class MainActivity extends BaseActivity implements Contract.View {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         presenter.attachView(this);
+
+        // Bind the views
         recyclerView = findViewById(R.id.items_future);
         city_name = findViewById(R.id.city_name);
         current_temperature = findViewById(R.id.current_temperature);
@@ -50,22 +49,35 @@ public class MainActivity extends BaseActivity implements Contract.View {
         humidity = findViewById(R.id.humidity);
         time = findViewById(R.id.time);
         search = findViewById(R.id.search);
-        reload = findViewById(R.id.reload);
+        progressBar = findViewById(R.id.progressBar);
+        swipeRefresh = findViewById(R.id.swipeRefresh);
         current_temperature_image = findViewById(R.id.current_temperature_image);
         weather_description = findViewById(R.id.weather_description);
+        progressBar.setVisibility(View.VISIBLE);
+        swipeRefresh.setColorSchemeResources(R.color.textBig);
 
+
+        // Get location when open activity
         presenter.getCurrentLocation(mContext);
-        RxView.clicks(reload)
-                .debounce(1000, TimeUnit.MICROSECONDS)
-                .subscribe(this::onReload);
+
+
+        // Set swipe refresh for get new data from server
+        swipeRefresh.setOnRefreshListener(() ->
+                presenter.getCurrentLocation(mContext));
+
+
+        // Set listener for search button with RXBinding
+       RxView.clicks(search)
+                .subscribe(this::onSearch);
 
     }
 
 
     @Override
     public void currentTempRecieve(CurrentWeather currentWeather, ArrayList list) {
-        Log.e("temprecived", "temprecived");
 
+
+        // Initialize views
         city_name.setText(currentWeather.getCity_name());
         weather_description.setText(currentWeather.getWeather_description());
         current_temperature_image.load(this, currentWeather.getCurrent_temperature_image());
@@ -79,10 +91,18 @@ public class MainActivity extends BaseActivity implements Contract.View {
         time.setText(new SimpleDateFormat("MM/dd/yyyy HH:mm").format(currentWeather.getDate()));
 
 
+        progressBar.setVisibility(View.GONE);
+
+
+        // Set Adapter for recycler to show forecast weather
         NextDaysItemsAdapter adapter = new NextDaysItemsAdapter(
                 mContext, list);
         recyclerView.setAdapter(adapter);
-        reload.setAnimation(null);
+
+
+        // After new refresh and get new data must swipe refresh close
+        swipeRefresh.setRefreshing(false);
+
 
     }
 
@@ -99,21 +119,10 @@ public class MainActivity extends BaseActivity implements Contract.View {
     }
 
     @Override
-    public void onReload(Void aVoid) {
-        this.runOnUiThread(() -> {
-            Log.e("reload", "reload");
-            RotateAnimation animation = new RotateAnimation(0f, 360f,Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-            animation.setInterpolator(new LinearInterpolator());
-            animation.setRepeatCount(Animation.INFINITE);
-            animation.setDuration(800);
-            animation.setRepeatMode(ValueAnimator.RESTART);
-            reload.startAnimation(animation);
-            presenter.getCurrentLocation(mContext);
-
-        });
-
+    public void onSearch(Void aVoid) {
 
     }
+
 
     @Override
     protected void onPause() {

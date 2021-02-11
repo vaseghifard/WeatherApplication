@@ -14,8 +14,8 @@ public interface Contract {
         void currentTempRecieve(CurrentWeather currentWeather,ArrayList list);
         void locationSaved(Location location);
         void onError();
+        void onSearch(Void aVoid);
 
-        void onReload(Void aVoid);
     }
     interface Presenter{
         void attachView(View view);

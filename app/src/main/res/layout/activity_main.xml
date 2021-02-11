@@ -1,418 +1,434 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:background="@color/white"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:padding="15dp"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                android:layout_width="25dp"
-                android:layout_alignParentStart="true"
-                android:id="@+id/search"
-                android:src="@drawable/search"
-                android:layout_height="25dp" />
-            <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                android:layout_width="25dp"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/reload"
-                android:src="@drawable/reload"
-                android:layout_height="25dp" />
-        </RelativeLayout>
-
-
-        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-            android:layout_width="wrap_content"
-            android:textSize="20sp"
-            android:id="@+id/city_name"
-            android:textColor="@color/textBig"
-            android:layout_height="wrap_content" />
-
-        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-            android:layout_width="wrap_content"
-            android:textSize="13sp"
-            android:id="@+id/time"
-            android:textColor="@color/textSmall"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="0dp"
-        android:layout_weight="2">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/current_temperature"
-                        android:gravity="center"
-                        android:textColor="@color/textBig"
-                        android:textSize="30sp"
-                        android:layout_height="wrap_content" />
-
-                    <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                        android:layout_width="wrap_content"
-                        android:textSize="24sp"
-                        android:gravity="center"
-                        android:textColor="@color/textBig"
-                        android:id="@+id/weather_description"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_weight="1"
-                android:gravity="center"
-                android:layout_width="0dp"
-                android:layout_margin="10dp"
-                android:layout_height="match_parent">
-
-                <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                    android:id="@+id/current_temperature_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-        android:layout_width="wrap_content"
-        android:textSize="16sp"
-        android:text="@string/Details"
-        android:textColor="@color/textDetail"
-        android:gravity="bottom"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_height="match_parent">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/background_items"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center">
-
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-
-                                    android:background="@drawable/low_temperature" />
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:gravity="start|center"
-                                android:orientation="vertical"
-                                android:padding="5dp">
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/low_temp"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="12sp" />
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:id="@+id/min"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="16sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/background_items"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center">
-
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:background="@drawable/humidity" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:gravity="start|center"
-                                android:orientation="vertical"
-                                android:padding="5dp">
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/Humidity"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="12sp" />
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:id="@+id/humidity"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="16sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/background_items"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center">
-
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-
-                                    android:background="@drawable/high_temperature" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:gravity="start|center"
-                                android:orientation="vertical"
-                                android:padding="5dp">
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/High_Temp"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="12sp" />
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:id="@+id/max"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="16sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginBottom="10dp"
-                            android:background="@drawable/background_items"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center">
-
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyImageView
-                                    android:layout_width="30dp"
-                                    android:layout_height="30dp"
-                                    android:background="@drawable/wind" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="2"
-                                android:gravity="start|center"
-                                android:orientation="vertical"
-                                android:padding="5dp">
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/Wind_Speed"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="12sp" />
-
-                                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
-                                    android:id="@+id/wind_speed"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/colorTextDescription"
-                                    android:textSize="16sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <TextView
+                <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                    android:id="@+id/search"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                   android:layout_gravity="start"
+                    android:src="@drawable/search" />
+
+
+                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                    android:id="@+id/city_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:text="@string/next_days"
-                    android:textColor="@color/textDetail"
-                    android:textSize="18sp" />
+                    android:textColor="@color/textBig"
+                    android:textSize="20sp" />
 
-                <View
+                <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:background="@color/textDetail" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textSmall"
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/frame_temp_future"
-                android:orientation="horizontal"
-                android:padding="10dp">
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/items_future"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                android:id="@+id/current_temperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/textBig"
+                                android:textSize="30sp" />
+
+                            <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                android:id="@+id/weather_description"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:textColor="@color/textBig"
+                                android:textSize="24sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                            android:id="@+id/current_temperature_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:text="@string/Details"
+                android:textColor="@color/textDetail"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="center">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/background_items"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center">
+
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+
+                                            android:background="@drawable/low_temperature" />
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="2"
+                                        android:gravity="start|center"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/low_temp"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="12sp" />
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:id="@+id/min"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="16sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/background_items"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center">
+
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:background="@drawable/humidity" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="2"
+                                        android:gravity="start|center"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/Humidity"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="12sp" />
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:id="@+id/humidity"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="16sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/background_items"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center">
+
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+
+                                            android:background="@drawable/high_temperature" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="2"
+                                        android:gravity="start|center"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/High_Temp"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="12sp" />
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:id="@+id/max"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="16sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginBottom="10dp"
+                                    android:background="@drawable/background_items"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1"
+                                        android:gravity="center">
+
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyImageView
+                                            android:layout_width="30dp"
+                                            android:layout_height="30dp"
+                                            android:background="@drawable/wind" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="2"
+                                        android:gravity="start|center"
+                                        android:orientation="vertical"
+                                        android:padding="5dp">
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="@string/Wind_Speed"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="12sp" />
+
+                                        <com.github.vaseghifard.weatherapplication.customViews.MyTextView
+                                            android:id="@+id/wind_speed"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/colorTextDescription"
+                                            android:textSize="16sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="bottom"
+                            android:text="@string/next_days"
+                            android:textColor="@color/textDetail"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:background="@color/textDetail" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/frame_temp_future"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/items_future"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+
+                    </LinearLayout>
+                </RelativeLayout>
 
 
             </LinearLayout>
-        </RelativeLayout>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
 
-</LinearLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/circular_shap"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="65"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:visibility="visible" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>
