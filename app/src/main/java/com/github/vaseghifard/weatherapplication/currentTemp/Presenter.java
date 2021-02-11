@@ -16,6 +16,11 @@ public class Presenter implements Contract.Presenter {
         model.attachPresenter(this);
     }
 
+    @Override
+    public void checkDataBase(Context context) {
+        model.checkDataBase(context);
+    }
+
 
     @Override
     public void getCurrentLocation(Context context) {

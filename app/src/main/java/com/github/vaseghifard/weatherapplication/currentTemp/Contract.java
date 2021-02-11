@@ -19,6 +19,7 @@ public interface Contract {
     }
     interface Presenter{
         void attachView(View view);
+        void checkDataBase(Context context);
         void getCurrentLocation(Context context);
         void locationSaved(Location location);
         void getCurrentTemp(Location location);
@@ -27,6 +28,7 @@ public interface Contract {
 
     }
     interface Model{
+        void checkDataBase(Context context);
         void attachPresenter(Presenter Presenter);
         void getCurrentLocation(Context context);
         void getCurrentTemp(Location location);

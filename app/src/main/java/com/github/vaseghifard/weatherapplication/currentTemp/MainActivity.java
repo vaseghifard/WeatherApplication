@@ -25,7 +25,6 @@ public class MainActivity extends BaseActivity implements Contract.View {
     RecyclerView recyclerView;
     MyTextView city_name, current_temperature, min, max, weather_description, wind_speed, humidity, time;
     MyImageView current_temperature_image, search;
-    ProgressBar progressBar;
     Presenter presenter;
     SwipeRefreshLayout swipeRefresh;
 
@@ -49,16 +48,18 @@ public class MainActivity extends BaseActivity implements Contract.View {
         humidity = findViewById(R.id.humidity);
         time = findViewById(R.id.time);
         search = findViewById(R.id.search);
-        progressBar = findViewById(R.id.progressBar);
         swipeRefresh = findViewById(R.id.swipeRefresh);
         current_temperature_image = findViewById(R.id.current_temperature_image);
         weather_description = findViewById(R.id.weather_description);
-        progressBar.setVisibility(View.VISIBLE);
         swipeRefresh.setColorSchemeResources(R.color.textBig);
 
 
-        // Get location when open activity
-        presenter.getCurrentLocation(mContext);
+
+
+        //First check shared preference to fill views
+        presenter.checkDataBase(mContext);
+
+
 
 
         // Set swipe refresh for get new data from server
@@ -91,7 +92,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
         time.setText(new SimpleDateFormat("MM/dd/yyyy HH:mm").format(currentWeather.getDate()));
 
 
-        progressBar.setVisibility(View.GONE);
+
 
 
         // Set Adapter for recycler to show forecast weather
