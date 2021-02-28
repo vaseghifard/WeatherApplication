@@ -1,4 +1,5 @@
 package com.github.vaseghifard.weatherapplication.currentTemp;
+
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -6,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+
 import com.github.vaseghifard.weatherapplication.R;
 import com.github.vaseghifard.weatherapplication.adapters.NextDaysItemsAdapter;
 import com.github.vaseghifard.weatherapplication.customViews.MyImageView;
@@ -14,10 +16,11 @@ import com.github.vaseghifard.weatherapplication.models.CurrentWeather;
 import com.github.vaseghifard.weatherapplication.utils.BaseActivity;
 import com.github.vaseghifard.weatherapplication.utils.PublicMethods;
 import com.jakewharton.rxbinding.view.RxView;
+import com.orhanobut.hawk.Hawk;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-
 
 
 public class MainActivity extends BaseActivity implements Contract.View {
@@ -27,6 +30,7 @@ public class MainActivity extends BaseActivity implements Contract.View {
     MyImageView current_temperature_image, search;
     Presenter presenter;
     SwipeRefreshLayout swipeRefresh;
+    Boolean executeOnResume=false;
 
 
     @Override
@@ -54,21 +58,20 @@ public class MainActivity extends BaseActivity implements Contract.View {
         swipeRefresh.setColorSchemeResources(R.color.textBig);
 
 
-
-
         //First check shared preference to fill views
-        presenter.checkDataBase(mContext);
-
+         presenter.checkDataBase(mContext);
 
 
 
         // Set swipe refresh for get new data from server
-        swipeRefresh.setOnRefreshListener(() ->
-                presenter.getCurrentLocation(mContext));
+        swipeRefresh.setOnRefreshListener(() -> {
+            presenter.getCurrentLocation(mContext);
+            swipeRefresh.setRefreshing(false);
+        });
 
 
         // Set listener for search button with RXBinding
-       RxView.clicks(search)
+        RxView.clicks(search)
                 .subscribe(this::onSearch);
 
     }
@@ -90,9 +93,6 @@ public class MainActivity extends BaseActivity implements Contract.View {
         humidity.setText(currentWeather.getHumidity() + "%");
         wind_speed.setText(String.format("%.0f", currentWeather.getSpeed_wind()) + "km/h");
         time.setText(new SimpleDateFormat("MM/dd/yyyy HH:mm").format(currentWeather.getDate()));
-
-
-
 
 
         // Set Adapter for recycler to show forecast weather
@@ -127,12 +127,16 @@ public class MainActivity extends BaseActivity implements Contract.View {
 
     @Override
     protected void onPause() {
+
         super.onPause();
+        executeOnResume=true;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.getCurrentLocation(mContext);
+
+        if (executeOnResume)
+         presenter.getCurrentLocation(mContext);
     }
 }

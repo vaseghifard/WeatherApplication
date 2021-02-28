@@ -3,15 +3,14 @@ package com.github.vaseghifard.weatherapplication.currentTemp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
@@ -47,6 +46,7 @@ public class Model implements Contract.Model {
 
     LocationManager locationManager;
     Location totalLocation = null;
+    boolean connected;
 
 
     @Override
@@ -58,15 +58,15 @@ public class Model implements Contract.Model {
     @Override
     public void checkDataBase(Context context) {
 
-        boolean isCurrent = Hawk.contains("CurrentWeather");
-        boolean isForeCast = Hawk.contains("foreCastTemp");
-        if (isCurrent && isForeCast) {
-            
-            presenter.currentTempRecieve(Hawk.get("CurrentWeather"), Hawk.get("foreCastTemp"));
 
-        }
+        if (Hawk.get("firstRun", true)) {
             presenter.getCurrentLocation(context);
-
+            Hawk.put("firstRun", false);
+        } else if (Hawk.get("firstRun", false) && !connected) {
+            presenter.currentTempRecieve(Hawk.get("CurrentWeather"), Hawk.get("foreCastTemp"));
+        } else {
+            presenter.getCurrentLocation(context);
+        }
 
     }
 
@@ -75,11 +75,12 @@ public class Model implements Contract.Model {
     public void getCurrentLocation(Context context) {
 
 
-        boolean connected;
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE}, 2);
-            return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_NETWORK_STATE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.INTERNET, Manifest.permission.ACCESS_NETWORK_STATE}, 2);
+                return;
+            }
         }
 
         try {
@@ -88,10 +89,11 @@ public class Model implements Contract.Model {
             NetworkInfo nInfo = cm.getActiveNetworkInfo();
             connected = nInfo != null && nInfo.isAvailable() && nInfo.isConnected();
             if (connected) {
-
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                    return;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+                        return;
+                    }
                 }
 
                 locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
